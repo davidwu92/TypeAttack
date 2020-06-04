@@ -14,10 +14,6 @@ const Gameroom = ({location}) => {
 
   //connecting to socket with name/room; closing tab disconnects user.
   useEffect(()=>{
-    // //location comes from react router; gives the parameters!
-    // const data = queryString.parse(location.search)
-    // //"?name=jsmastery&room=room1"
-    // console.log(data) 
     const {name, room} = queryString.parse(location.search) //location comes from react router; gives the parameters!
     socket = io(ENDPOINT)
     setName(name)
@@ -31,8 +27,9 @@ const Gameroom = ({location}) => {
   },[ENDPOINT, location.search])
 
   //for user-generated messaging.
+  //triggered whenever "message" is emitted from server.
   useEffect(()=>{
-    socket.on('message', ({user, text})=>{
+    socket.on('message', (message)=>{
       setMessages([...messages, message])
     })
   },[messages])
@@ -47,11 +44,12 @@ const Gameroom = ({location}) => {
 
   return(
     <>
-      <h1>Gameroom component</h1>
-      {/* INPUT FIELD FOR SENDING MESSAGES. */}
-      <div>
+      <div className="container">
+        <h3 className="center">Gameroom Page</h3>
+
+        {/* INPUT FIELD FOR SENDING MESSAGES. */}
         <div>
-          <h5>INPUT STUFF</h5>
+          <h5>MESSAGING STUFF</h5>
           <input value={message}
             onChange={(e)=>setMessage(e.target.value)}
             onKeyPress={event=>event.key==="Enter" ? sendMessage(event):null}

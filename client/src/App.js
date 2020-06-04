@@ -2,8 +2,8 @@ import React from 'react';
 
 import {BrowserRouter as Router, Route} from 'react-router-dom'
 
-import Lobby from './components/Lobby'
-import Gameroom from './components/Gameroom'
+import Lobby from './Pages/Lobby'
+import Gameroom from './Pages/Gameroom'
 
 
 const App =  () => {
