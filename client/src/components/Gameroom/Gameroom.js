@@ -58,18 +58,15 @@ const Gameroom = ({location}) => {
         <div className="row">
           {/* INPUT FIELD FOR SENDING MESSAGES? */}
           <div className="col s12 m8 l8">
-            <h5>MESSAGING STUFF</h5>
-            <input value={message}
-              onChange={(e)=>setMessage(e.target.value)}
-              onKeyPress={event=>event.key==="Enter" ? sendMessage(event):null}
-            />
+            <h5 className="center">GAME STUFF</h5>
+
           </div>
 
           {/* COMPONENT TO RENDER MESSAGES */}
           <div className="col s12 m4 l4">
             <div id="messageBoxContainer"> {/* height: 35vh; justify-content: space-between */}
               <div className="blue" style={{borderTopLeftRadius:"5px", borderTopRightRadius:"5px"}}>
-                <h5 className="center white-text" style={{marginBottom:"6px"}}>Message Box</h5>
+              <h6 className="center white-text" style={{margin:"6px 0 7px 0"}}>{room} Chat</h6>
               </div>
 
               <MessageBox messages={messages} name={name}/>

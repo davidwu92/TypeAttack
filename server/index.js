@@ -2,7 +2,7 @@ const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
 
-const {addUser, removeUser, getUser, getUsersInRoom} = require('./users.js')
+const {addUser, removeUser, chooseNewMaster, getUser, getUsersInRoom} = require('./users.js')
 
 const cors = require('cors')
 const PORT = process.env.PORT || 5000
@@ -46,16 +46,26 @@ io.on('connection', (socket)=>{
   //user-generated messages.
   socket.on('sendMessage', (message, callback)=>{
     const user = getUser(socket.id);
-    io.to(user.room).emit('message', {user: user.name, text: message})
+    io.to(user.room).emit('message', {user: user.name, text: message, isMaster: user.isMaster})
 
     callback();
   })
 
   //disconnecting from room.
   socket.on('disconnect',()=>{
-    console.log(`A user has left.`)
     const user = removeUser(socket.id)
+    console.log(`A user has left:`)
     console.log(user)
+    if(user){
+      io.to(user.room).emit('message', {user: "admin", text:`${user.name} has left the room.`})
+      if(user.isMaster){
+        let newMaster = chooseNewMaster(user.name, user.room)
+        io.to(user.room).emit('message', {user: "admin", text:`${newMaster} has been made the room master.`})
+      } else {
+
+      }
+    }
+
   })
 
 })
