@@ -4,7 +4,7 @@ import io from 'socket.io-client';
 
 let socket;
 
-const Chat = ({location}) => {
+const Gameroom = ({location}) => {
   const [name, setName] = useState(``)
   const [room, setRoom] = useState(``)
 
@@ -47,10 +47,11 @@ const Chat = ({location}) => {
 
   return(
     <>
-      <h1>Chat component</h1>
+      <h1>Gameroom component</h1>
       {/* INPUT FIELD FOR SENDING MESSAGES. */}
       <div>
         <div>
+          <h5>INPUT STUFF</h5>
           <input value={message}
             onChange={(e)=>setMessage(e.target.value)}
             onKeyPress={event=>event.key==="Enter" ? sendMessage(event):null}
@@ -62,4 +63,4 @@ const Chat = ({location}) => {
 
 }
 
-export default Chat
+export default Gameroom
