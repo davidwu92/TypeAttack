@@ -57,16 +57,17 @@ const Gameroom = ({location}) => {
 
         <div className="row">
           {/* INPUT FIELD FOR SENDING MESSAGES? */}
-          <div className="col s12 m8 l8">
+          <div className="col s12 m8 l8 green lighten-3">
             <h5 className="center">GAME STUFF</h5>
-
+            SELECT AN ARTICLE
           </div>
 
-          {/* COMPONENT TO RENDER MESSAGES */}
+          {/* RIGHT SIDE SHENANIGANS */}
           <div className="col s12 m4 l4">
+            {/* MESSAGE BOX CONTAINER */}
             <div id="messageBoxContainer"> {/* height: 35vh; justify-content: space-between */}
               <div className="blue" style={{borderTopLeftRadius:"5px", borderTopRightRadius:"5px"}}>
-              <h6 className="center white-text" style={{margin:"6px 0 7px 0"}}>{room} Chat</h6>
+                <h6 className="center white-text" style={{margin:"6px 0 7px 0"}}>{room} Chat</h6>
               </div>
 
               <MessageBox messages={messages} name={name}/>
@@ -87,6 +88,11 @@ const Gameroom = ({location}) => {
                     <i class="tiny material-icons">send</i>
                 </button>
               </div>
+            </div>
+
+            {/* INFO BOX CONTAINER */}
+            <div id="infoBoxContainer" className="red lighten-4">
+              <h5>Info Box</h5>
             </div>
           </div>
         </div>

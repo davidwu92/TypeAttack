@@ -13,7 +13,7 @@
   border-style: solid;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  padding: 0;
+  padding: 0 0 0 1px;
 }
 
 input[type=text].messageInput:focus {
