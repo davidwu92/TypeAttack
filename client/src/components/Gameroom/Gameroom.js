@@ -2,6 +2,10 @@ import React, {useState, useEffect} from 'react'
 import queryString from 'query-string' //this allows us to grab the url.
 import io from 'socket.io-client';
 
+import MessageBox from '../MessageBox'
+
+import './Gameroom.css'
+
 let socket;
 
 const Gameroom = ({location}) => {
@@ -29,10 +33,14 @@ const Gameroom = ({location}) => {
   //for user-generated messaging.
   //triggered whenever "message" is emitted from server.
   useEffect(()=>{
+    console.log("message useEffect trigger.")
     socket.on('message', (message)=>{
-      setMessages([...messages, message])
+      // setMessages([...messages, message])
+      setMessages((messages)=>{
+        return([...messages, message])
+      })
     })
-  },[messages])
+  },[])
 
   //function for sending messages.
   const sendMessage = (event) => {
@@ -45,15 +53,45 @@ const Gameroom = ({location}) => {
   return(
     <>
       <div className="container">
-        <h3 className="center">Gameroom Page</h3>
+        <h3 className="center">Gameroom</h3>
 
-        {/* INPUT FIELD FOR SENDING MESSAGES. */}
-        <div>
-          <h5>MESSAGING STUFF</h5>
-          <input value={message}
-            onChange={(e)=>setMessage(e.target.value)}
-            onKeyPress={event=>event.key==="Enter" ? sendMessage(event):null}
-          />
+        <div className="row">
+          {/* INPUT FIELD FOR SENDING MESSAGES? */}
+          <div className="col s12 m8 l8">
+            <h5>MESSAGING STUFF</h5>
+            <input value={message}
+              onChange={(e)=>setMessage(e.target.value)}
+              onKeyPress={event=>event.key==="Enter" ? sendMessage(event):null}
+            />
+          </div>
+
+          {/* COMPONENT TO RENDER MESSAGES */}
+          <div className="col s12 m4 l4">
+            <div id="messageBoxContainer"> {/* height: 35vh; justify-content: space-between */}
+              <div className="blue" style={{borderTopLeftRadius:"5px", borderTopRightRadius:"5px"}}>
+                <h5 className="center white-text" style={{marginBottom:"6px"}}>Message Box</h5>
+              </div>
+
+              <MessageBox messages={messages} name={name}/>
+              
+              <div id="inputBoxDiv">
+                <input value={message}
+                  type="text" className="browser-default messageInput"
+                  placeholder="Type a message..."
+                  style={{padding:"1px", width:"90%", 
+                        borderTop:"none", borderRight:"none", borderLeft:"none",
+                        borderBottomWidth:"2px", borderBottomColor:"#4a148c", borderBottomLeftRadius:"3px"}}
+                  onChange={(e)=>setMessage(e.target.value)}
+                  onKeyPress={event=>event.key==="Enter" ? sendMessage(event):null}
+                />
+                <button className="btn purple darken-4" 
+                  style={{position:"relative", top:"-2px", borderRadius:"0", borderBottomRightRadius:"3px",
+                  borderTopRightRadius:"0px", lineHeight: "1", width: "10%", height:"100%", padding:"0"}}>
+                    <i class="tiny material-icons">send</i>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </>

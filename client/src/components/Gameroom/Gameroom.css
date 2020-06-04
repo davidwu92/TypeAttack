@@ -1,0 +1,21 @@
+#messageBoxContainer {
+  height: 35vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#inputBoxDiv {
+  border-width: 1px 3px 3px 2px;
+  border-color: #2196F3;
+  border-top-color: #2196F3;
+  border-style: solid;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  padding: 0;
+}
+
+input[type=text].messageInput:focus {
+  outline: none;
+}

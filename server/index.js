@@ -18,21 +18,29 @@ io.on('connection', (socket)=>{
   console.log('We have a new connection.')
 
   socket.on('join', ({name, room}, callback)=>{
-    // console.log(name, room)
-    const {error, user} = addUser({id: socket.id, name, room});
-    console.log("USER: ")
-    console.log(user)
-    if(error) return callback(error);
-    
-    //emit message to the joiner, welcoming joiner.
-    socket.emit('message', {user: "admin", text:`Welcome ${user.name}.`})
-
-    //broadcast to everyone ELSE in the room.
-    socket.broadcast.to(user.room).emit('message',{user:"admin", text:`${user.name} has joined the room '${user.room}'.`})
-    
-    socket.join(user.room);
-    
-    callback();
+    //check if this is the first joiner.
+    if(getUsersInRoom(room).length){ //NOT THE FIRST TO JOIN.
+      const {error, user} = addUser({id: socket.id, name, room, isMaster: false,});
+      if(error) return callback(error);
+      
+      //emit welcome message to the joiner.
+      socket.emit('message',{user:'admin', text:`Hi ${user.name}! Welcome to the room "${user.room}".`})
+      
+      //broadcast to everyone ELSE in the room.
+      socket.broadcast.to(user.room).emit('message',{user:"admin", text:`${user.name} has joined the room '${user.room}'.`})
+      
+      socket.join(user.room);
+      callback();
+    } else { //FIRST JOINER. make this user the master.
+      const {error, user} = addUser({id: socket.id, name, room, isMaster: true,});
+      if(error) return callback(error);
+      
+      //emit welcome message to room master.
+      socket.emit('message',{user:'admin', text:`Hi ${user.name}! You have been made the room master of "${user.room}".`})
+      socket.join(user.room);
+      
+      callback();
+    }
   })
 
   //user-generated messages.

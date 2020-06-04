@@ -1,6 +1,6 @@
 const users = [];
 
-const addUser = ({id, name, room}) => {
+const addUser = ({id, name, room, isMaster}) => {
   //lowercase the name.
   name = name.trim().toLowerCase();
   room = room.trim().toLowerCase();
@@ -9,8 +9,11 @@ const addUser = ({id, name, room}) => {
 
   if(existingUser){
     return({error: "Username is taken."})
+  } else if (name==="admin"){
+    return{error: 'You cannot use the name "admin".'}
   }
-  const user = {id, name, room}
+
+  const user = {id, name, room, isMaster}
   users.push(user);
   return {user}
 }
