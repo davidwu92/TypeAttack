@@ -51,6 +51,13 @@ io.on('connection', (socket)=>{
     callback();
   })
 
+  //Article Selected.
+  socket.on('articleSelected', (articleString, callback)=>{
+    //try sending the articleString to each user, and that's it.
+    const user = getUser(socket.id)
+    io.to(user.room).emit('incomingArticleString', articleString)
+  })
+
   //disconnecting from room.
   socket.on('disconnect',()=>{
     const user = removeUser(socket.id)

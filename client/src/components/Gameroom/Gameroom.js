@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import queryString from 'query-string' //this allows us to grab the url.
 import io from 'socket.io-client';
-
+import ArticleSelect from '../ArticleSelect'
 import MessageBox from '../MessageBox'
 
 import './Gameroom.css'
@@ -50,6 +50,16 @@ const Gameroom = ({location}) => {
     }
   }
 
+
+  //GAME FUNCTIONS AND SUCH
+  const [articleString, setArticleString] = useState(``)
+  useEffect(()=>{
+    console.log('article incoming useEffect trigger.')
+    socket.on('incomingArticleString', (string)=>{
+      setArticleString(string)
+    })
+  },[])
+
   return(
     <>
       <div className="container">
@@ -59,7 +69,9 @@ const Gameroom = ({location}) => {
           {/* INPUT FIELD FOR SENDING MESSAGES? */}
           <div className="col s12 m8 l8 green lighten-3">
             <h5 className="center">GAME STUFF</h5>
-            SELECT AN ARTICLE
+            {/* SELECT an article using this component. It'll set the articleString. */}
+            <ArticleSelect setArticleString={setArticleString} socket={socket}/>
+            <button onClick={()=>{console.log(articleString)}}>SEE ARTICLESTRING</button>
           </div>
 
           {/* RIGHT SIDE SHENANIGANS */}
