@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react'
 import queryString from 'query-string' //this allows us to grab the url.
 import io from 'socket.io-client';
 import ArticleSelect from '../ArticleSelect'
+import ArticleContent from '../ArticleContent'
+import TypingArea from '../TypingArea'
+
 import MessageBox from '../MessageBox'
 
 import './Gameroom.css'
@@ -60,6 +63,19 @@ const Gameroom = ({location}) => {
     })
   },[])
 
+  const [typedWords, setTypedWords] = useState([])
+
+  // //Scroll To Bottom of typing area.
+  // const typeAreaRef = useRef(null)
+  // const scrollToBottom = () => {
+  //   console.log("scrollToBottom Triggered")
+  //   typeAreaRef.current.scrollIntoView({ behavior: "smooth" })
+  //   if(document.getElementById("articleScrollPoint")){
+  //     document.getElementById("articleScrollPoint").scrollIntoView({behavior:"smooth", block:"center"})
+  //   }
+  // }
+  // useEffect(scrollToBottom, [typedWords])
+
   return(
     <>
       <div className="container">
@@ -72,6 +88,12 @@ const Gameroom = ({location}) => {
             {/* SELECT an article using this component. It'll set the articleString. */}
             <ArticleSelect setArticleString={setArticleString} socket={socket}/>
             <button onClick={()=>{console.log(articleString)}}>SEE ARTICLESTRING</button>
+
+            <ArticleContent articleString={articleString} typedWords={typedWords}/>
+            <h5>Article Content above.</h5>
+
+            <TypingArea typedWords={typedWords} setTypedWords={setTypedWords} 
+              articleString={articleString}/>
           </div>
 
           {/* RIGHT SIDE SHENANIGANS */}
