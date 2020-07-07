@@ -65,16 +65,6 @@ const Gameroom = ({location}) => {
 
   const [typedWords, setTypedWords] = useState([])
 
-  // //Scroll To Bottom of typing area.
-  // const typeAreaRef = useRef(null)
-  // const scrollToBottom = () => {
-  //   console.log("scrollToBottom Triggered")
-  //   typeAreaRef.current.scrollIntoView({ behavior: "smooth" })
-  //   if(document.getElementById("articleScrollPoint")){
-  //     document.getElementById("articleScrollPoint").scrollIntoView({behavior:"smooth", block:"center"})
-  //   }
-  // }
-  // useEffect(scrollToBottom, [typedWords])
 
   return(
     <>

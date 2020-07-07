@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 
 const ArticleSelect = ({setArticleString, socket}) => {
-  
-  async function getArticle(titleArray){
+
+  async function getArticle(titleArray, categoryName){
     let title = "Barack_Obama"
     if(titleArray.length){
       title = titleArray[Math.floor(Math.random()*titleArray.length)]
@@ -41,13 +41,13 @@ const ArticleSelect = ({setArticleString, socket}) => {
 
     //useEffect will setArticleString instead?
     // setArticleString(formatString)
-
     //emit to backend.
-    socket.emit('articleSelected', formatString, ()=>{})
+    socket.emit('articleSelected', {formatString, categoryName}, ()=>{})
   }
 
   const selectArticle = () => {
     let titleArray = []
+    let categoryName = ""
     switch (document.getElementById(`categorySelect`).value) {
       case `0`:
         setArticleString(``)
@@ -60,34 +60,41 @@ const ArticleSelect = ({setArticleString, socket}) => {
         "Seventh_Amendment_to_the_United_States_Constitution", "Eighth_Amendment_to_the_United_States_Constitution",
         "Ninth_Amendment_to_the_United_States_Constitution", "Tenth_Amendment_to_the_United_States_Constitution",
       ]
+        categoryName = "on US historical documents"
         break;
       case `category2`:
         titleArray = ["President_of_the_United_States", "George_Washington", "Abraham_Lincoln", "John_Adams", "Barack_Obama", "Thomas_Jefferson",
         "John_F._Kennedy","Lyndon_B._Johnson","Richard_Nixon","Alexander_Hamilton","Benjamin_Franklin","James_Madison",]
+        categoryName = "on US Presidents"
         break;
       case `category3`:
         titleArray = ["C._S._Lewis", "J._K._Rowling", "J._R._R._Tolkien", "Lewis_Carroll"]
+        categoryName = "on famous American and English authors"
         break;
       case `category4`:
         titleArray = ["Special_relativity", "Electromagnetic_spectrum", "Photosynthesis",
         "Gravity", "Chemical_bond", "Molecule", "Chemical_element", "Periodic_table"]
+        categoryName = "on Physics, Chemistry, and Biology"
         break;
       case `category5`:
         titleArray = ["Macbeth", "Romeo_and_Juliet", "William_Shakespeare", "Hamlet", "The_Comedy_of_Errors", "Antony_and_Cleopatra"]
+        categoryName = "on William Shakespeare"
         break;
       case `category6`:
         titleArray = ["Moon", "Jupiter", "Mercury_(planet)", "Venus", "Mars", "Saturn", "Sun","Uranus","Neptune", "Pluto"]
+        categoryName = "on celestial bodies in the solar system"
         break;
       case `category7`:
         titleArray = ["Batman", "Superman","Wonder_Woman","Flash_(comics)","Green_Lantern", "Aquaman",
         "Dick_Grayson", "Catwoman","Barbara_Gordon","Green_Arrow","Roy_Harper_(character)","Justice_League",
       "Captain_Marvel_(DC_Comics)", "Black_Lightning","Joker_(character)","Deathstroke","Lex_Luthor","Suicide_Squad","Riddler"]
+        categoryName = "on DC comic book characters"
         break;
       default:
         setArticleString(``)
         break;
     }
-    getArticle(titleArray)
+    getArticle(titleArray, categoryName)
   }
 
 
@@ -106,7 +113,7 @@ const ArticleSelect = ({setArticleString, socket}) => {
         }}
         onChange={selectArticle}
       >
-        <option value="0" disabled selected>About David's Typing Test (not a test)</option>
+        <option value="0" disabled selected>About TypeAttack</option>
         <option value="category1">On US Historic Documents</option>
         <option value="category2">On US Presidents and Founding Fathers</option>
         <option value="category3">On Famous American and English Authors</option>

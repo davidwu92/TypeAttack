@@ -52,10 +52,11 @@ io.on('connection', (socket)=>{
   })
 
   //Article Selected.
-  socket.on('articleSelected', (articleString, callback)=>{
+  socket.on('articleSelected', (articleSelectData, callback)=>{
     //try sending the articleString to each user, and that's it.
     const user = getUser(socket.id)
-    io.to(user.room).emit('incomingArticleString', articleString)
+    io.to(user.room).emit('incomingArticleString', articleSelectData.formatString)
+    io.to(user.room).emit('message', {user: "admin", text:`The room master has selected an article ${articleSelectData.categoryName}.`})
   })
 
   //disconnecting from room.
