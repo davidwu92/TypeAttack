@@ -31,6 +31,7 @@ io.on('connection', (socket)=>{
       
       socket.join(user.room);
       callback();
+      io.to(user.room).emit('getUserData', getUsersInRoom(user.room))
     } else { //FIRST JOINER. make this user the master.
       const {error, user} = addUser({id: socket.id, name, room, isMaster: true,});
       if(error) return callback(error);
@@ -40,6 +41,7 @@ io.on('connection', (socket)=>{
       socket.join(user.room);
       
       callback();
+      io.to(user.room).emit('getUserData', getUsersInRoom(user.room))
     }
   })
 
@@ -50,6 +52,7 @@ io.on('connection', (socket)=>{
 
     callback();
   })
+
 
   //Article Selected.
   socket.on('articleSelected', (articleSelectData, callback)=>{
@@ -66,6 +69,7 @@ io.on('connection', (socket)=>{
     console.log(user)
     if(user){
       io.to(user.room).emit('message', {user: "admin", text:`${user.name} has left the room.`})
+      io.to(user.room).emit('getUserData', getUsersInRoom(user.room))
       if(user.isMaster){
         let newMaster = chooseNewMaster(user.name, user.room)
         io.to(user.room).emit('message', {user: "admin", text:`${newMaster} has been made the room master.`})

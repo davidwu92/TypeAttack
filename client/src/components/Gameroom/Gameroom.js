@@ -15,6 +15,7 @@ const Gameroom = ({location}) => {
   const [name, setName] = useState(``)
   const [room, setRoom] = useState(``)
 
+
   const [message, setMessage] = useState('')
   const [messages, setMessages] = useState([])
   const ENDPOINT = 'localhost:5000'
@@ -65,11 +66,21 @@ const Gameroom = ({location}) => {
 
   const [typedWords, setTypedWords] = useState([])
 
+  //USERS IN ROOM
+  const [users, setUsers] = useState([])
+  useEffect(()=>{
+    console.log('getUserData useEffect triggered.')
+    socket.on('getUserData', (userArray)=>{
+      setUsers(userArray)
+    })
+  },[])
+
+
 
   return(
     <>
       <div className="container">
-        <h3 className="center">Gameroom</h3>
+        <h3 className="center">Type Attack!</h3>
 
         <div className="row">
           {/* INPUT FIELD FOR SENDING MESSAGES? */}
@@ -116,7 +127,8 @@ const Gameroom = ({location}) => {
 
             {/* INFO BOX CONTAINER */}
             <div id="infoBoxContainer" className="red lighten-4">
-              <h5>Info Box</h5>
+              <h5>Users in room</h5>
+              <button onClick={()=>console.log(users)}>see users</button>
             </div>
           </div>
         </div>
